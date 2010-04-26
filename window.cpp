@@ -59,12 +59,14 @@
      lisR->setMargin(0);
      lisR->addWidget(comboR);
      lisR->addWidget(viewR);
-     
      listL->setLayout(lisL);
      listR->setLayout(lisR);
      
      lists->setMargin(0);
-     lists->addWidget(listL);
+     lists->addWidget(&treeL);
+
+
+
      lists->addWidget(listR);
      
      panelList->setLayout(lists);
@@ -90,6 +92,11 @@
      widget->setLayout(layout);
           
      kontroler = new Controler();
+     treeL.setModel(kontroler->leftModel);
+     treeL.setAnimated(false);
+     treeL.setIndentation(20);
+     treeL.setSortingEnabled(true);
+
      createActions();
      createMenus();
 
@@ -97,6 +104,7 @@
      setMinimumSize(300, 200);
      resize(700, 500);
      
+
      
      listFocus = 0;
      switchFocus();

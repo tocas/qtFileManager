@@ -6,6 +6,9 @@
  #include <QDir>
  #include <vector>
  #include <QMutex>
+ #include <QDirModel>
+
+
  //#include "cthread.h"
 /*
 struct device{
@@ -20,15 +23,17 @@ struct device{
      
      QStringList  cGetFiles(QDir path);
      QString  cShowDiskUsage(void);	
-     
+
      bool  cCopy(QString source, QString destination);
      bool  cMove  (QString source, QString destination);
      int  cRename(QString source, QString destination);
      int  cMkDir (QString path,QString name);
      void  cDelete(QString file);
+
      
      std::vector<struct device> *useDev;
      QMutex * devicesMutex;
+     QDirModel *leftModel;
  protected:
      
  private:

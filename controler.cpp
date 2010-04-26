@@ -14,6 +14,7 @@
  
  Controler::Controler(){
   devicesMutex = new QMutex();
+  leftModel = new QDirModel();
  }
  
  int Controler::vetsi(QString  a, QString  b){
@@ -121,5 +122,6 @@
 	QFile file(source);
 	return file.rename(destination);	
  } 
+
  
  

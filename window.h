@@ -3,6 +3,8 @@
 
  #include <QMainWindow>
  #include <QDir>
+ #include <QTreeView>
+
  #include "controler.h"
 
  class QAction;
@@ -73,6 +75,8 @@
      QListWidget *viewL;
      QListWidget *viewR;
      
+     QTreeView treeL;
+
      
      Controler *kontroler;
      
