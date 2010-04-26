@@ -121,25 +121,5 @@
 	QFile file(source);
 	return file.rename(destination);	
  } 
-
- QStringList Controler::cGetDevices(){
-  QStringList devices;
-  system("./script.sh");
-  QFile file("devices.txt");
-  useDev = new std::vector<struct device>();
-  if (file.open(QIODevice::ReadOnly | QIODevice::Text)){
-    QTextStream in(&file);
-    while (!in.atEnd()) {
-      QString line = in.readLine();
-      struct device tmp;
-      tmp.path = line;
-      tmp.use = 0;
-      useDev->push_back(tmp);
-      devices << line;
-    }
-  }
-  return devices;
- }
- 
  
  

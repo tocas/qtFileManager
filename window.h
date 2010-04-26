@@ -101,7 +101,7 @@
      
      QLCDNumber *lcd;
      
-     QStringList *devices;
+     QStringList devices;
  };
 
  #endif

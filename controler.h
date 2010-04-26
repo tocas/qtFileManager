@@ -26,7 +26,6 @@ struct device{
      int  cRename(QString source, QString destination);
      int  cMkDir (QString path,QString name);
      void  cDelete(QString file);
-     QStringList cGetDevices();
      
      std::vector<struct device> *useDev;
      QMutex * devicesMutex;

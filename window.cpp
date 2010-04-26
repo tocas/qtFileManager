@@ -249,11 +249,11 @@
  void Window::setFocusR() { listFocus = 1;}
 
  void Window::setPathL(int a) { 
- dirL.setPath(devices->at(a));
+ dirL.setPath(devices.at(a));
  refreshList(0,dirL);
  }
  void Window::setPathR(int a) {
- dirR.setPath(devices->at(a));
+ dirR.setPath(devices.at(a));
  refreshList(1,dirR);
  }
 
@@ -387,9 +387,21 @@
  }
  
  void Window::initializeDevices(){
- devices = new QStringList(kontroler->cGetDevices());
-  comboL->addItems(*devices);
-  comboR->addItems(*devices); 
+     QFileInfoList drivers = QDir::drives();
+     for(int i = 0; i < drivers.size(); ++i){
+         devices << drivers.at(i).absolutePath();
+     }
+
+     #ifdef Q_WS_MAC
+         QDir volumes( "/Volumes");
+         QFileInfoList s = volumes.entryInfoList();
+         for(int i = 0; i < s.size(); ++i){
+             if(! devices.contains(s.at(i).absoluteFilePath())) devices << s.at(i).absoluteFilePath();
+         }
+     #endif
+
+     comboL->addItems(devices);
+     comboR->addItems(devices);
  }
 
  void Window::refresh(){
