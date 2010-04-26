@@ -69,8 +69,10 @@
      
      panelList->setLayout(lists);
           
+     initializeDevices();
+
      dirL.setPath(QDir::rootPath());
-     dirR.setPath(".");
+     dirR.setPath(QDir::homePath());
      refreshList(0,dirL);
      refreshList(1,dirR);
      
@@ -90,7 +92,6 @@
      kontroler = new Controler();
      createActions();
      createMenus();
-     initializeDevices();
 
      setWindowTitle(tr("File Manager CPM"));
      setMinimumSize(300, 200);
