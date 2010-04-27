@@ -254,10 +254,10 @@
  void Window::setFocusR() { listFocus = 1;}
 
  void Window::setPathL(int a) { 
-    kontroler->cChnangePath(0,comboL->itemText(a));
+
  }
  void Window::setPathR(int a) {
-  kontroler->cChnangePath(1,comboR->itemText(a));
+
  }
 
  void Window::createButtons()
@@ -408,10 +408,4 @@
  void Window::refresh(){
     kontroler->rightModel->refresh(treeR->rootIndex());
     kontroler->leftModel->refresh(treeL->rootIndex());
- }
-
- void Window::onWrite( qint64 w )
- {
-     written += w;
-     progressBar->setValue( written / 1024 );
  }

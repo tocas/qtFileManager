@@ -13,7 +13,6 @@
 
 struct device{
 	QString path;
-	int use;
 };
   
 class CThread : public QThread

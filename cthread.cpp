@@ -46,8 +46,6 @@ void CThread::copyFile(QString a, QString b){
       copyFile(a + "/" + childs.at(i),tmp2 + "/" + tmp + "/" + childs.at(i));
     }
   }else{
-// 		QFile soubor(a);
-// 		soubor.copy(b);
 	  QFile oldFile(a);
 	  QFile newFile(b);
 	  oldFile.open( QIODevice::ReadOnly );

@@ -14,18 +14,12 @@
  
  
  Controler::Controler(){
-  devicesMutex = new QMutex();
   leftModel = new QDirModel();
   leftModel->setResolveSymlinks(true);
   leftModel->setReadOnly( false );
   rightModel = new QDirModel();
   rightModel->setResolveSymlinks(true);
   leftModel->setReadOnly( false );
- }
- 
- int Controler::vetsi(QString  a, QString  b){
-    if(a > b) return 0;
-    else return 1;
  }
  
  QStringList Controler::cGetFiles(QDir path)
@@ -42,7 +36,7 @@
 	return a;
  }
  
- bool Controler::cCopy(QString source, QString destination)
+ void Controler::cCopy(QString source, QString destination)
  {
      CProgresDialog *progrDialog = new CProgresDialog();
      progrDialog->setSource(source);
@@ -53,7 +47,7 @@
  }
 
 
- bool Controler::cMove(QString source,QString destination)
+ void Controler::cMove(QString source,QString destination)
  {
 	 CProgresDialog *progrDialog = new CProgresDialog();
 	 progrDialog->setSource(source);
@@ -83,14 +77,6 @@
         QFile file(source);
         return file.rename(destination);
  } 
-
- void Controler::cChnangePath(int site, QString path){
-     if(site == 0){
-        //leftModel->setRootPath(path);
-    } else {
-        //rightModel->setRootPath(path);
-    }
- }
 
 
  

@@ -17,9 +17,7 @@ class CProgresDialog : public QDialog, public Ui::Progres_Dialog
 		QTimer *t;
 		QFile toFile;
 		QFile fromFile;
-		qint64 written;
-		void *devices;
-		void *devicesMutex;
+                qint64 written;
 		int type;
 		
 		
