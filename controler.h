@@ -9,6 +9,7 @@
  #include <QDirModel>
 
 
+
  //#include "cthread.h"
 /*
 struct device{
@@ -29,11 +30,13 @@ struct device{
      int  cRename(QString source, QString destination);
      int  cMkDir (QString path,QString name);
      void  cDelete(QString file);
+     void cChnangePath(int site, QString path);
 
      
      std::vector<struct device> *useDev;
      QMutex * devicesMutex;
      QDirModel *leftModel;
+     QDirModel *rightModel;
  protected:
      
  private:

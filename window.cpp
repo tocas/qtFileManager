@@ -52,18 +52,18 @@
      
      viewL  = new QListWidget;
      viewR  = new QListWidget;
-     
+
      lisL->setMargin(0);
      lisL->addWidget(comboL);
-     lisL->addWidget(viewL);
+     lisL->addWidget(&treeL);
      lisR->setMargin(0);
      lisR->addWidget(comboR);
-     lisR->addWidget(viewR);
+     lisR->addWidget(&treeR);
      listL->setLayout(lisL);
      listR->setLayout(lisR);
      
      lists->setMargin(0);
-     lists->addWidget(&treeL);
+     lists->addWidget(listL);
 
 
 
@@ -97,12 +97,18 @@
      treeL.setIndentation(20);
      treeL.setSortingEnabled(true);
 
+     treeR.setModel(kontroler->leftModel);
+     treeR.setAnimated(true);
+     treeR.setIndentation(20);
+     treeR.setSortingEnabled(true);
+
+
      createActions();
      createMenus();
 
      setWindowTitle(tr("File Manager CPM"));
      setMinimumSize(300, 200);
-     resize(700, 500);
+     resize(800, 600);
      
 
      
@@ -258,12 +264,10 @@
  void Window::setFocusR() { listFocus = 1;}
 
  void Window::setPathL(int a) { 
- dirL.setPath(devices.at(a));
- refreshList(0,dirL);
+    kontroler->cChnangePath(0,comboL->itemText(a));
  }
  void Window::setPathR(int a) {
- dirR.setPath(devices.at(a));
- refreshList(1,dirR);
+  kontroler->cChnangePath(1,comboR->itemText(a));
  }
 
  void Window::createButtons()

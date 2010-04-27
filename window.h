@@ -4,6 +4,7 @@
  #include <QMainWindow>
  #include <QDir>
  #include <QTreeView>
+ #include <QListView>
 
  #include "controler.h"
 
@@ -76,7 +77,7 @@
      QListWidget *viewR;
      
      QTreeView treeL;
-
+     QTreeView treeR;
      
      Controler *kontroler;
      

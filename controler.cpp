@@ -15,6 +15,9 @@
  Controler::Controler(){
   devicesMutex = new QMutex();
   leftModel = new QDirModel();
+  leftModel->setResolveSymlinks(true);
+  rightModel = new QDirModel();
+  rightModel->setResolveSymlinks(true);
  }
  
  int Controler::vetsi(QString  a, QString  b){
@@ -122,6 +125,15 @@
 	QFile file(source);
 	return file.rename(destination);	
  } 
+
+ void Controler::cChnangePath(int site, QString path){
+     if(site == 0){
+        //leftModel->setRootPath(path);
+    } else {
+        //rightModel->setRootPath(path);
+    }
+ }
+
 
  
  
