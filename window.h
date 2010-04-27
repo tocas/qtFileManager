@@ -44,8 +44,6 @@
      void about();
      void aboutQt();
      void switchFocus();
-     void dblClickListL();
-     void dblClickListR();
      void setFocusL();
      void setFocusR();
      void setPathL(int a);

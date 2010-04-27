@@ -241,35 +241,6 @@
      infoLabel->setText(tr("Invoked <b>Help|About Qt</b>"));
  }
  
-  void Window::dblClickListL()
-  {
-    if(viewL->currentRow() != 0){
-      QFile tmp(dirL.path() + "/" + viewL->item(viewL->currentRow())->text());
-      QFileInfo tmpInfo(tmp);
-      if(tmpInfo.isDir()){
-        dirL.setPath( QDir::cleanPath(tmp.fileName()));
-        refreshList(0,dirL);
-      }else{ 
-        infoLabel->setText(tmpInfo.fileName() + " size: " + QString::number(tmpInfo.size()));
-      }
-    }
-    listFocus = 0;
-  }
- 
-  void Window::dblClickListR()
-  {
-    if(viewR->currentRow() != 0){
-      QFile tmp(dirR.path() + "/" + viewR->item(viewR->currentRow())->text());
-      QFileInfo tmpInfo(tmp);
-      if(tmpInfo.isDir()){
-        dirR.setPath( QDir::cleanPath(tmp.fileName()));
-	      refreshList(1,dirR);
-      }else{ 
-        infoLabel->setText(tmpInfo.fileName() + " size: " + QString::number(tmpInfo.size()));
-      }
-    }
-    listFocus = 1;
- }
  
  void Window::setFocusL() { listFocus = 0;}
  void Window::setFocusR() { listFocus = 1;}
@@ -361,8 +332,6 @@
      
      connect(viewL, SIGNAL(itemClicked( QListWidgetItem * )), this, SLOT(setFocusL()));
      connect(viewR, SIGNAL(itemClicked( QListWidgetItem * )), this, SLOT(setFocusR()));
-     connect(viewL, SIGNAL(itemDoubleClicked( QListWidgetItem * )), this, SLOT(dblClickListL()));
-     connect(viewR, SIGNAL(itemDoubleClicked( QListWidgetItem * )), this, SLOT(dblClickListR()));
      connect(comboL, SIGNAL(currentIndexChanged( int )), this, SLOT(setPathL(int)));
      connect(comboR, SIGNAL(currentIndexChanged( int )), this, SLOT(setPathR(int)));
      
