@@ -3,15 +3,13 @@
 
 
 CThread::CThread() : QThread() {
-	mutex.release(1);
+
 }
 CThread::~CThread(){}
 
 void CThread::setSource(QString a){ source = a; }
 void CThread::setDestination(QString b){dest = b; }
 void CThread::setType(int a){type = a; }
-void CThread::setDevices(void * k){devices = (std::vector<struct device> *)k; }
-void CThread::setDevicesMutex(void * k){devicesMutex = (QMutex *)k; }
 
 // Types n.
 // 1 - copy
@@ -22,13 +20,11 @@ void CThread::run(){
   std::cout << "Kopirovani" << std::endl;
   std::cout << qPrintable(source) << std::endl;
   std::cout << qPrintable(dest) << std::endl;
-  mutexik.lock();
   switch (type){
 	  case 1:  copyFile(source,dest); break;
 	  case 2:  moveFile(source,dest); break;
 	  case 3:  deleteFile(source); break;
   }
-  unlock();
   std::cout << "Kopirovani dokonceno" << std::endl;
 }
 
@@ -61,7 +57,6 @@ void CThread::copyFile(QString a, QString b){
 	  char* buffer = new char[BUFFER_SIZE];
 	  while(!oldFile.atEnd())
 	  {
-		  if(mutex.available() == 0) mutexik.lock();
 		  qint64 len = oldFile.read( buffer, BUFFER_SIZE );
  		  completed +=len;
 		  progres = completed * 100 / oldFile.size();
@@ -125,26 +120,4 @@ int CThread::getProgres(){
    QFile file(dest);
    QFileInfo infoFile(file);
    return infoFile.size();
-}
-
-void CThread::unlock(){
-  if(type == 1 || type == 2){
-    devicesMutex->lock();
-    int size = devices->size();
-    int sa=0,sb=0,da=0,db=0;
-    for(int i = 0; i < size; i++){
-      if(source.startsWith(devices->at(i).path) && devices->at(i).path.size() > sa) {
-        sa = devices->at(i).path.size();
-        sb = i;
-      }
-      if(dest.startsWith(devices->at(i).path) && devices->at(i).path.size() > da) {
-        da = devices->at(i).path.size();
-        db = i;
-      }
-    }
-    devices->at(sb).use = 0;
-    devices->at(db).use = 0;
-    devicesMutex->unlock();
-  }
-	std::cout << "Konci kopirovaci vlakno" << std::endl;
 }

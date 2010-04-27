@@ -9,6 +9,7 @@
  #include <QTextStream>
  #include <QDir>
  #include "CProgresDialog.h"
+ #include <QMessageBox>
  #include "controler.h"
  
  
@@ -41,72 +42,28 @@
 	return a;
  }
  
- bool Controler::cCopy(QString source,QString destination)
- {	
-  int size = useDev->size();
-  int sa=0,sb=0,da=0,db=0;
-  std::cout << "Pred mutex lock" << std::endl;
-  devicesMutex->lock();
-  std::cout << "Po mutex lock" << std::endl;
-  for(int i = 0; i < size; i++){
-    if(source.startsWith(useDev->at(i).path) && useDev->at(i).path.size() > sa) {
-      sa = useDev->at(i).path.size();
-      sb = i;
-    }
-    if(destination.startsWith(useDev->at(i).path) && useDev->at(i).path.size() > da) {
-      da = useDev->at(i).path.size();
-      db = i;
-    }
-  }
-  if( useDev->at(sb).use == 0 || useDev->at(db).use == 0){
-    CProgresDialog *progrDialog = new CProgresDialog();
-    progrDialog->setSource(source);
-    progrDialog->setDestination(destination);
-    progrDialog->setDevices((void *)useDev);
-    progrDialog->setDevicesMutex((void *)devicesMutex);
-    progrDialog->type = 1;
-    progrDialog->show();
-    progrDialog->activateWindow();
-    useDev->at(sb).use = 1;
-    useDev->at(db).use = 1;
-    devicesMutex->unlock();
-    return true;
-  }else{
-    devicesMutex->unlock();
-    return false;
-  }
+ bool Controler::cCopy(QString source, QString destination)
+ {
+     CProgresDialog *progrDialog = new CProgresDialog();
+     progrDialog->setSource(source);
+     progrDialog->setDestination(destination);
+     progrDialog->type = 1;
+     progrDialog->show();
+     progrDialog->activateWindow();
  }
+
 
  bool Controler::cMove(QString source,QString destination)
  {
-  int size = useDev->size();
-  int sa=0,sb=0,da=0,db=0;
-  for(int i = 0; i < size; i++){
-    if(source.startsWith(useDev->at(i).path) && useDev->at(i).path.size() > sa) {
-      sa = useDev->at(i).path.size();
-      sb = i;
-    }
-    if(destination.startsWith(useDev->at(i).path) && useDev->at(i).path.size() > da) {
-      da = useDev->at(i).path.size();
-      db = i;
-    }
-  }
-  if( useDev->at(sb).use == 0 || useDev->at(db).use == 0){
 	 CProgresDialog *progrDialog = new CProgresDialog();
 	 progrDialog->setSource(source);
 	 progrDialog->setDestination(destination);
-	 progrDialog->setDevices((void *)useDev);
-	 progrDialog->setDevicesMutex((void *)devicesMutex);
 	 progrDialog->type = 2;
 	 progrDialog->show();
 	 progrDialog->activateWindow();
-	 useDev->at(sb).use = 1;
-   useDev->at(db).use = 1;
-   return true;
- }else{
-  return false;
+
  }
- }
+
  void Controler::cDelete(QString source)
  {
 	 CProgresDialog *progrDialog = new CProgresDialog();
@@ -115,8 +72,6 @@
 	 progrDialog->type = 3;
 	 progrDialog->show();
 	 progrDialog->activateWindow();
-// 	t_delete.setSource(source);
-// 	t_delete.mutex.unlock(); 
  }
 
  int Controler::cMkDir(QString path, QString name){

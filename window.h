@@ -5,6 +5,7 @@
  #include <QDir>
  #include <QTreeView>
  #include <QListView>
+ #include <QProgressBar>
 
  #include "controler.h"
 
@@ -49,6 +50,7 @@
      void setPathL(int a);
      void setPathR(int a);
      void refresh(void);
+     void onWrite(qint64 w);
 
  private:
      void createActions();
@@ -103,7 +105,9 @@
      QPushButton *tabB;
      
      QLCDNumber *lcd;
+     QProgressBar *progressBar;
      
+     qint64 written;
      QStringList devices;
  };
 

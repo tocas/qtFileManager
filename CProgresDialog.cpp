@@ -22,37 +22,25 @@ CProgresDialog::CProgresDialog(QWidget *parent)
 }
 
 CProgresDialog::~CProgresDialog(){
-	worker->unlock();
   delete worker;
 }
 
 void CProgresDialog::pb_Stop_clicked(){
-	worker->mutex.acquire(1);
 	pb_Stop->setEnabled(false);
 	pb_Start->setEnabled(true);
 }
 
 void CProgresDialog::pb_Start_clicked(){
-	if(worker->isRunning()){
-		worker->mutex.release(1);
-		worker->mutexik.unlock();
-	}
-	else{
- 		worker->setSource(l_source->text());
- 		worker->setDestination(l_dest->text());
-		worker->setType(type);
-		worker->setDevices(devices);
-		worker->setDevicesMutex(devicesMutex);
- 		worker->start();
-		t->start();
-	}
-	
+        worker->setSource(l_source->text());
+        worker->setDestination(l_dest->text());
+        worker->setType(type);
+        worker->start();
+        t->start();
 	pb_Stop->setEnabled(true);
 	pb_Start->setEnabled(false);	
 }
 
 void CProgresDialog::pd_close(){
-  worker->unlock();
 	t->stop();
 	this->close();
 }
@@ -62,13 +50,6 @@ void CProgresDialog::setSource(QString source){
 	fromFile.setFileName(source);
 }
 
-void CProgresDialog::setDevices(void * d){
-	devices = d; 
-}
-
-void CProgresDialog::setDevicesMutex(void * d){
-  devicesMutex = d;
-}
 
 void CProgresDialog::setDestination(QString dest){
 	l_dest->setText(dest);

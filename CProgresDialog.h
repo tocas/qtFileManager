@@ -28,8 +28,6 @@ class CProgresDialog : public QDialog, public Ui::Progres_Dialog
 		void pb_Stop_clicked( void );
 		void pd_close( void );
 		void setSource ( QString );
-		void setDevices ( void * );
-		void setDevicesMutex(void *);
 		void setDestination ( QString );
 		void setProgresValue( qint64 );
 		void perform(void);

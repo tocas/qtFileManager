@@ -93,7 +93,7 @@
           
      kontroler = new Controler();
      treeL->setModel(kontroler->leftModel);
-     treeL->setAnimated(false);
+     treeL->setAnimated(true);
      treeL->setIndentation(20);
      treeL->setSortingEnabled(true);
 
@@ -104,6 +104,8 @@
 
      //setting start directories
      treeR->setRootIndex( kontroler->rightModel->index(QDir::homePath()));
+     treeL->setRootIndex( kontroler->leftModel->index(QDir::rootPath()));
+
      createActions();
      createMenus();
 
@@ -126,40 +128,39 @@
  
  void Window::copyF()
  {
-	 bool ok = true;
-	 QString source,dest;
-	 if(listFocus == 0){
-		 source = viewL->item(viewL->currentRow())->text();
-		 dest = dirR.path() + "/" + source;
-		 ok = kontroler->cCopy(dirL.path() + "/" + source,dest);
-	 }else{
-		 source = viewR->item(viewR->currentRow())->text();
-		 dest = dirL.path() + "/" + source;
-		 ok = kontroler->cCopy(dirR.path() + "/" + source,dest);
-	 }
-	 refreshList(0,dirL);
-	 refreshList(1,dirR);
-	 if(!ok) QMessageBox::warning(this, tr("tc"),
-	     tr("Can't copy file!!!"),QMessageBox::Cancel);
+
+     QFileInfo left,right;
+     left = kontroler->leftModel->fileInfo(treeL->selectionModel()->selectedIndexes().first());
+     right = kontroler->rightModel->fileInfo(treeR->selectionModel()->selectedIndexes().first());
+
+     if(treeR->hasFocus()){
+         QMessageBox::warning(this, tr("tc"),
+                 right.absoluteFilePath(),QMessageBox::Cancel);
+         QMessageBox::warning(this, tr("tc"),
+                 left.absoluteDir().absolutePath()+"/"+right.fileName(),QMessageBox::Cancel);
+         kontroler->cCopy(right.absoluteFilePath(),left.absoluteDir().absolutePath()+"/"+right.fileName());
+     }
+     if(treeL->hasFocus()){
+         kontroler->cCopy(left.absoluteFilePath(),right.absoluteDir().absolutePath()+"/"+left.fileName());
+     }
  }
 
  void Window::moveF()
  {
-	 bool ok = true;
-	 QString source,dest;
-	 if(listFocus == 0){
-		 source = viewL->item(viewL->currentRow())->text();
-		 dest = dirR.path() + "/" + source;
-		 ok = kontroler->cMove(dirL.path() + "/" + source,dest);
-	 }else{
-		 source = viewR->item(viewR->currentRow())->text();
-		 dest = dirL.path() + "/" + source;
-		 ok = kontroler->cMove(dirR.path() + "/" + source,dest);
-	 }
-	 refreshList(0,dirL);
-	 refreshList(1,dirR);
-	 if(!ok) QMessageBox::warning(this, tr("tc"),
-	     tr("Can't rename file!!!"),QMessageBox::Cancel);
+     QFileInfo left,right;
+     left = kontroler->leftModel->fileInfo(treeL->selectionModel()->selectedIndexes().first());
+     right = kontroler->rightModel->fileInfo(treeR->selectionModel()->selectedIndexes().first());
+
+     if(treeR->hasFocus()){
+         QMessageBox::warning(this, tr("tc"),
+                 right.absoluteFilePath(),QMessageBox::Cancel);
+         QMessageBox::warning(this, tr("tc"),
+                 left.absoluteDir().absolutePath()+"/"+right.fileName(),QMessageBox::Cancel);
+         kontroler->cCopy(right.absoluteFilePath(),left.absoluteDir().absolutePath()+"/"+right.fileName());
+     }
+     if(treeL->hasFocus()){
+         kontroler->cMove(left.absoluteFilePath(),right.absoluteDir().absolutePath()+"/"+left.fileName());
+     }
  }
 
  void Window::mkdir()
@@ -169,7 +170,7 @@
          QString dirName = QInputDialog::getText(this, tr("New Dir"),
                                             tr("Input the new dir name"), QLineEdit::Normal,"", &ok);
          QModelIndexList list = treeR->selectionModel()->selectedIndexes();
-         QFileInfo info = kontroler->leftModel->fileInfo(list.first());
+         QFileInfo info = kontroler->rightModel->fileInfo(list.first());
          QMessageBox::warning(this, tr("tc"),
                      info.absoluteDir().absolutePath() + " " + dirName,QMessageBox::Cancel);
          kontroler->cMkDir(info.absoluteDir().absolutePath(),dirName);
@@ -407,4 +408,10 @@
  void Window::refresh(){
     kontroler->rightModel->refresh(treeR->rootIndex());
     kontroler->leftModel->refresh(treeL->rootIndex());
+ }
+
+ void Window::onWrite( qint64 w )
+ {
+     written += w;
+     progressBar->setValue( written / 1024 );
  }
