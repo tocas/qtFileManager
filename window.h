@@ -56,7 +56,6 @@
      void createMenus();
      void createButtons();
      void initializeDevices();
-     void refreshList(int list, QDir path);
 
      QMenu *fileMenu;
      QMenu *editMenu;

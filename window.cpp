@@ -52,6 +52,7 @@
      
      viewL  = new QListWidget;
      viewR  = new QListWidget;
+
      treeL = new QTreeView;
      treeR = new QTreeView;
 
@@ -75,8 +76,7 @@
           
      initializeDevices();
 
-     refreshList(0,dirL);
-     refreshList(1,dirR);
+
      
      lcd = new QLCDNumber(2);
      lcd->setSegmentStyle(QLCDNumber::Filled);
@@ -250,11 +250,11 @@
  }
  
  
- void Window::setFocusL() { listFocus = 0;}
- void Window::setFocusR() { listFocus = 1;}
+ void Window::setFocusL() { treeL->setFocus();;}
+ void Window::setFocusR() { treeR->setFocus();;}
 
  void Window::setPathL(int a) { 
-
+    
  }
  void Window::setPathR(int a) {
 
@@ -367,24 +367,11 @@
 
  }
 
- void Window::refreshList(int list, QDir path){
-  QListWidget * qlw;
-  if(list == 0){
-    qlw = viewL;
-  }else{
-    qlw = viewR;
-  }
-  qlw->clear();
-  qlw->addItems(kontroler->cGetFiles(path));
- }
+
  void Window::switchFocus()
  {
-  if(listFocus == 0){
-    viewR->setFocus();
-  }else{
-    viewL->setFocus();
-  }
-  listFocus = (listFocus + 1)%2;
+  if(treeL->hasFocus()) treeR->setFocus();
+  if(treeR->hasFocus()) treeL->setFocus();
  }
  
  void Window::initializeDevices(){
