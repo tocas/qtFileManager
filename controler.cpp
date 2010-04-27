@@ -76,6 +76,7 @@
     return false;
   }
  }
+
  bool Controler::cMove(QString source,QString destination)
  {
   int size = useDev->size();

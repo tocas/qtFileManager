@@ -164,25 +164,26 @@
 
  void Window::mkdir()
  {
+     bool ok = true;
      if(treeR->hasFocus()){
-        //kontroler->rightModel->mkdir()
+         QString dirName = QInputDialog::getText(this, tr("New Dir"),
+                                            tr("Input the new dir name"), QLineEdit::Normal,"", &ok);
+         QModelIndexList list = treeR->selectionModel()->selectedIndexes();
+         QFileInfo info = kontroler->leftModel->fileInfo(list.first());
+         QMessageBox::warning(this, tr("tc"),
+                     info.absoluteDir().absolutePath() + " " + dirName,QMessageBox::Cancel);
+         kontroler->cMkDir(info.absoluteDir().absolutePath(),dirName);
      }
      if(treeL->hasFocus()){
-
+         QString dirName = QInputDialog::getText(this, tr("New Dir"),
+                                            tr("Input the new dir name"), QLineEdit::Normal,"", &ok);
+         QModelIndexList list = treeL->selectionModel()->selectedIndexes();
+         QFileInfo info = kontroler->leftModel->fileInfo(list.first());
+         QMessageBox::warning(this, tr("tc"),
+                     info.absoluteDir().absolutePath() + " " + dirName,QMessageBox::Cancel);
+         kontroler->cMkDir(info.absoluteDir().absolutePath(),dirName);
      }
-
-
-/*	bool ok = true;
-	if(listFocus == 0 ){
-    ok = kontroler->cMkDir(dirL.path(),QInputDialog::getText(this, tr("New Dir"),
-		  tr("Input the new dir name"), QLineEdit::Normal,"", &ok));
-	}else{
-    ok = kontroler->cMkDir(dirR.path(),QInputDialog::getText(this, tr("New Dir"),
-		  tr("Input the new dir name"), QLineEdit::Normal,"", &ok));
-	}
-	refreshList(listFocus,dirR);
-	if(!ok) QMessageBox::warning(this, tr("tc"), tr("Can't create directory!!!"),QMessageBox::Cancel);
-        */
+        refresh();
  }
 
  void Window::deleteF()
