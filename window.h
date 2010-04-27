@@ -74,8 +74,8 @@
      QListWidget *viewL;
      QListWidget *viewR;
      
-     QTreeView treeL;
-     QTreeView treeR;
+     QTreeView *treeL;
+     QTreeView *treeR;
      
      Controler *kontroler;
      

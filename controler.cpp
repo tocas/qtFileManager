@@ -16,8 +16,10 @@
   devicesMutex = new QMutex();
   leftModel = new QDirModel();
   leftModel->setResolveSymlinks(true);
+  leftModel->setReadOnly( false );
   rightModel = new QDirModel();
   rightModel->setResolveSymlinks(true);
+  leftModel->setReadOnly( false );
  }
  
  int Controler::vetsi(QString  a, QString  b){
