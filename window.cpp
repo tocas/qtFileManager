@@ -177,36 +177,47 @@
 
  void Window::deleteF()
  {
-  bool ok = true;
-	QString source;
-	if(listFocus == 0){
-    source = viewL->item(viewL->currentRow())->text();
-    kontroler->cDelete(dirL.path() + "/" + source);
-	}else{
-    source = viewR->item(viewR->currentRow())->text();
-    kontroler->cDelete(dirR.path() + "/" + source);
-  }
-  refreshList(listFocus,dirR);
-	if(!ok) QMessageBox::warning(this, tr("tc"), tr("Can't delete file!!!"),QMessageBox::Cancel);
+    if(treeR.hasFocus()){
+        QModelIndexList list = treeR.selectionModel()->selectedIndexes();
+        QFileInfo info = kontroler->rightModel->fileInfo(list.first());
+        QMessageBox::warning(this, tr("tc"), info.absoluteFilePath(),QMessageBox::Cancel);
+        kontroler->cDelete(info.absoluteFilePath());
+        kontroler->rightModel->refresh();
+    }
+     if(treeL.hasFocus()){
+         QModelIndexList list = treeL.selectionModel()->selectedIndexes();
+         QFileInfo info = kontroler->leftModel->fileInfo(list.first());
+         QMessageBox::warning(this, tr("tc"), info.absoluteFilePath(),QMessageBox::Cancel);
+         kontroler->cDelete(info.absoluteFilePath());
+         kontroler->leftModel->refresh();
+     }
+
+
+
  }
 
  void Window::renameF()
  {
-  bool ok = true;
-  QString source,dest;
-  if(listFocus == 0){
-	  source = viewL->item(viewL->currentRow())->text();
-	  dest = QInputDialog::getText(this, tr("Rename"),
-				       tr("Input the new name of file"), QLineEdit::Normal, source, &ok);
-	  ok = kontroler->cRename(dirL.path() + "/" + source,dirL.path() + "/" + dest);
-  }else{
-    source = viewR->item(viewR->currentRow())->text();
-    dest = QInputDialog::getText(this, tr("Rename"),
-				    tr("Input the new name of file"), QLineEdit::Normal, source, &ok);
-    ok = kontroler->cRename(dirR.path() + "/" + source,dirR.path() + "/" + dest);
-  }
-  refreshList(listFocus,dirR);
-  if(!ok) QMessageBox::warning(this, tr("tc"), tr("Can't rename file!!!"),QMessageBox::Cancel);
+     bool ok = true;
+     if(treeR.hasFocus()){
+         QModelIndexList list = treeR.selectionModel()->selectedIndexes();
+         QFileInfo info = kontroler->rightModel->fileInfo(list.first());
+         QString dest = QInputDialog::getText(this, tr("Rename"),
+                                      tr("Input the new name of file"), QLineEdit::Normal, info.fileName(), &ok);
+         QMessageBox::warning(this, tr("tc"), info.absoluteDir().absolutePath() + "/" + dest,QMessageBox::Cancel);
+         kontroler->cRename(info.absoluteFilePath(),info.absoluteDir().absolutePath() + "/" + dest);
+
+      }
+      if(treeL.hasFocus()){
+          QModelIndexList list = treeL.selectionModel()->selectedIndexes();
+          QFileInfo info = kontroler->leftModel->fileInfo(list.first());
+          QString dest = QInputDialog::getText(this, tr("Rename"),
+                                       tr("Input the new name of file"), QLineEdit::Normal, info.fileName(), &ok);
+          QMessageBox::warning(this, tr("tc"), info.absoluteDir().absolutePath() + "/" + dest,QMessageBox::Cancel);
+          kontroler->cRename(info.absoluteFilePath(),info.absoluteDir().absolutePath() + "/" + dest);
+      }
+      refresh();
+
  }
 
  void Window::bold()
@@ -418,6 +429,6 @@
  }
 
  void Window::refresh(){
-	 refreshList(1,dirR);
-	 refreshList(0,dirL);
+    kontroler->rightModel->refresh(treeR.rootIndex());
+    kontroler->leftModel->refresh(treeL.rootIndex());
  }

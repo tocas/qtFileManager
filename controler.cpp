@@ -122,8 +122,8 @@
  }
 
  int Controler::cRename(QString source, QString destination){
-	QFile file(source);
-	return file.rename(destination);	
+        QFile file(source);
+        return file.rename(destination);
  } 
 
  void Controler::cChnangePath(int site, QString path){
