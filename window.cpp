@@ -49,9 +49,6 @@
      
      comboL = new QComboBox;
      comboR = new QComboBox;
-     
-     viewL  = new QListWidget;
-     viewR  = new QListWidget;
 
      treeL = new QTreeView;
      treeR = new QTreeView;
@@ -104,7 +101,7 @@
 
      //setting start directories
      treeR->setRootIndex( kontroler->rightModel->index(QDir::homePath()));
-     treeL->setRootIndex( kontroler->leftModel->index(QDir::rootPath()));
+     treeL->setRootIndex( kontroler->leftModel->index("/Volumes"));
 
      createActions();
      createMenus();
@@ -254,10 +251,12 @@
  void Window::setFocusR() { treeR->setFocus();;}
 
  void Window::setPathL(int a) { 
-    
+    treeL->setRootIndex( kontroler->leftModel->index(comboL->itemText(a)));
+    refresh();
  }
  void Window::setPathR(int a) {
-
+     treeR->setRootIndex( kontroler->rightModel->index(comboR->itemText(a)));
+     refresh();
  }
 
  void Window::createButtons()
@@ -338,8 +337,6 @@
      connect(tabB, SIGNAL(clicked()), this, SLOT(switchFocus()));
      tabB->setShortcut(tr("Tab"));
      
-     connect(viewL, SIGNAL(itemClicked( QListWidgetItem * )), this, SLOT(setFocusL()));
-     connect(viewR, SIGNAL(itemClicked( QListWidgetItem * )), this, SLOT(setFocusR()));
      connect(comboL, SIGNAL(currentIndexChanged( int )), this, SLOT(setPathL(int)));
      connect(comboR, SIGNAL(currentIndexChanged( int )), this, SLOT(setPathR(int)));
      

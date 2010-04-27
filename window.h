@@ -70,9 +70,6 @@
      
      QWidget *bottomButton;
      QHBoxLayout *buttons;
-
-     QListWidget *viewL;
-     QListWidget *viewR;
      
      QTreeView *treeL;
      QTreeView *treeR;
