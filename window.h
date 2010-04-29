@@ -49,6 +49,8 @@
      void setFocusR();
      void setPathL(int a);
      void setPathR(int a);
+     void dblClickedOnMyTreeR(QModelIndex index);
+     void dblClickedOnMyTreeL(QModelIndex index);
      void refresh(void);
 
  private:

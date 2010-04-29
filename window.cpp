@@ -337,6 +337,16 @@
      connect(tabB, SIGNAL(clicked()), this, SLOT(switchFocus()));
      tabB->setShortcut(tr("Tab"));
      
+     connect (treeR
+             ,SIGNAL(doubleClicked(const QModelIndex &))
+             ,this
+             ,SLOT(dblClickedOnMyTreeR(const QModelIndex &))
+             );
+     connect (treeL
+             ,SIGNAL(doubleClicked(const QModelIndex &))
+             ,this
+             ,SLOT(dblClickedOnMyTreeL(const QModelIndex &))
+             );
      connect(comboL, SIGNAL(currentIndexChanged( int )), this, SLOT(setPathL(int)));
      connect(comboR, SIGNAL(currentIndexChanged( int )), this, SLOT(setPathR(int)));
      
@@ -392,4 +402,13 @@
  void Window::refresh(){
     kontroler->rightModel->refresh(treeR->rootIndex());
     kontroler->leftModel->refresh(treeL->rootIndex());
+ }
+
+ void Window::dblClickedOnMyTreeR(QModelIndex index ){
+     treeR->setRootIndex( kontroler->rightModel->index(index.row(),index.column(),index.parent()));
+     refresh();
+ }
+ void Window::dblClickedOnMyTreeL(QModelIndex index ){
+     treeL->setRootIndex( kontroler->leftModel->index(index.row(),index.column(),index.parent()));
+     refresh();
  }
